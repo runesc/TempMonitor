@@ -16,7 +16,7 @@
 */
 import React, { Component } from 'react';
 import classnames from "classnames";
-import { db } from "../../config/firebase"
+import { auth } from "../../config/firebase"
 // reactstrap components
 import {
   Button,
@@ -30,6 +30,7 @@ import {
   InputGroupText,
   InputGroup,
   Container,
+  Alert,
   Col,
 } from "reactstrap";
 
@@ -37,7 +38,10 @@ import {
 class Lock extends Component {
 
   state = {
-    passFocus: false
+    passFocus: false,
+    email: "invitado@invitado.com",
+    password: '',
+    message: null
   }
 
   componentDidMount(){
@@ -51,12 +55,33 @@ class Lock extends Component {
     };
   }
 
+  signIn = async e =>{
+    e.preventDefault();
+
+    const { email, password } = this.state
+
+    if(!password.trim()){
+      this.setState({message: "Contraseña incorrecta"})
+      return
+    }
+
+    await auth.signInWithEmailAndPassword(email, password).then( user => {
+      this.props.history.push('/admin/dashboard')
+    }).catch( err => {
+      this.setState({message: "Error intentalo de nuevo."})
+    })
+
+  }
+
   render() {
-    const { passFocus } = this.state
+    const { passFocus, password, message } = this.state
     return (
       <div className="content">
         <Container>
           <Col className="ml-auto mr-auto" lg="4" md="6">
+            {
+              message ? <Alert color="danger">{ message }</Alert> : null
+            }
             <Card className="card-lock card-white text-center">
               <CardHeader>
                 <img alt="..." src={require("assets/img/emilyz.jpg").default} />
@@ -75,7 +100,9 @@ class Lock extends Component {
                   </InputGroupAddon>
                   <Input
                     placeholder="Password"
-                    type="text"
+                    type="password"
+                    value={ password }
+                    onChange={ e => this.setState({password: e.target.value}) }
                   />
                 </InputGroup>
               </CardBody>
@@ -85,7 +112,7 @@ class Lock extends Component {
                   color="primary"
                   href="#pablo"
                   size="lg"
-                  onClick={(e) => e.preventDefault()}
+                  onClick={(e) => this.signIn(e)}
                 >
                   Unlock
                 </Button>
