@@ -24,7 +24,7 @@ import RTLLayout from "layouts/RTL/RTL.js";
 
 import "assets/css/nucleo-icons.css";
 import "react-notification-alert/dist/animate.css";
-import "assets/scss/black-dashboard-pro-react.scss?v=1.2.0";
+import "assets/css/black-dashboard-pro-react.css";
 import "assets/demo/demo.css";
 
 ReactDOM.render(

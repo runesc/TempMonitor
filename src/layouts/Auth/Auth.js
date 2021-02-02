@@ -17,15 +17,14 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
-import AuthNavbar from "components/Navbars/AuthNavbar.js";
 import Footer from "components/Footer/Footer.js";
-
 import routes from "routes.js";
 
 const Pages = (props) => {
   React.useEffect(() => {
     document.documentElement.classList.remove("nav-open");
   });
+
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
       if (prop.collapse) {
@@ -44,6 +43,7 @@ const Pages = (props) => {
       }
     });
   };
+
   const getActiveRoute = (routes) => {
     let activeRoute = "Default Brand Text";
     for (let i = 0; i < routes.length; i++) {
@@ -64,6 +64,7 @@ const Pages = (props) => {
     }
     return activeRoute;
   };
+
   const getFullPageName = (routes) => {
     let pageName = getActiveRoute(routes);
     switch (pageName) {
@@ -81,7 +82,6 @@ const Pages = (props) => {
   };
   return (
     <>
-      <AuthNavbar brandText={getActiveRoute(routes) + " Page"} />
       <div className="wrapper wrapper-full-page">
         <div className={"full-page " + getFullPageName(routes)}>
           <Switch>

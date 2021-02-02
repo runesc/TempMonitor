@@ -14,8 +14,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { Component } from 'react';
 import classnames from "classnames";
+import { db } from "../../config/firebase"
 // reactstrap components
 import {
   Button,
@@ -32,16 +33,27 @@ import {
   Col,
 } from "reactstrap";
 
-const Lock = () => {
-  const [state, setState] = React.useState({});
-  React.useEffect(() => {
+
+class Lock extends Component {
+
+  state = {
+    passFocus: false
+  }
+
+  componentDidMount(){
+    this.toggleClass()
+  }
+
+  toggleClass(){
     document.body.classList.toggle("lock-page");
-    return function cleanup() {
+    return () => {
       document.body.classList.toggle("lock-page");
     };
-  });
-  return (
-    <>
+  }
+
+  render() {
+    const { passFocus } = this.state
+    return (
       <div className="content">
         <Container>
           <Col className="ml-auto mr-auto" lg="4" md="6">
@@ -50,10 +62,10 @@ const Lock = () => {
                 <img alt="..." src={require("assets/img/emilyz.jpg").default} />
               </CardHeader>
               <CardBody>
-                <CardTitle tag="h4">Joe Gardner</CardTitle>
+                <CardTitle tag="h4">Nombre persona</CardTitle>
                 <InputGroup
                   className={classnames({
-                    "input-group-focus": state.passFocus,
+                    "input-group-focus": passFocus,
                   })}
                 >
                   <InputGroupAddon addonType="prepend">
@@ -64,8 +76,6 @@ const Lock = () => {
                   <Input
                     placeholder="Password"
                     type="text"
-                    onFocus={(e) => setState({ ...state, passFocus: true })}
-                    onBlur={(e) => setState({ ...state, passFocus: false })}
                   />
                 </InputGroup>
               </CardBody>
@@ -84,8 +94,8 @@ const Lock = () => {
           </Col>
         </Container>
       </div>
-    </>
-  );
-};
+    );
+  }
+}
 
 export default Lock;
