@@ -21,6 +21,8 @@ import classNames from "classnames";
 import { Line, Bar } from "react-chartjs-2";
 // react plugin for creating vector maps
 import { VectorMap } from "react-jvectormap";
+import { auth } from '../config/firebase'
+
 
 // reactstrap components
 import {
@@ -72,6 +74,12 @@ const Dashboard = () => {
   const setBgChartData = (name) => {
     setbigChartData(name);
   };
+
+  // equivale a
+  React.useEffect((props) => {
+    if (!auth.currentUser) props.history.push('/auth/lock-screen')
+  })
+
   return (
     <>
       <div className="content">
