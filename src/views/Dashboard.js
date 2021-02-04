@@ -69,11 +69,16 @@ var mapData = {
   US: 2920,
 };
 
-
-
 class Dashboard extends Component {
+
+  state = "data1";
+
+  bigChartData = () => {}
+
+  setBgChartData = (name) => {}
+
   render() {
-    return (     
+    return (
       <div className="content">
       <Row>
         <Col xs="12">
@@ -95,9 +100,9 @@ class Dashboard extends Component {
                       size="sm"
                       tag="label"
                       className={classNames("btn-simple", {
-                        active: bigChartData === "data1",
+                        active: this.bigChartData === "data1",
                       })}
-                      onClick={() => setBgChartData("data1")}
+                      onClick={() => this.setBgChartData("data1")}
                     >
                       <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                         Accounts
@@ -112,9 +117,9 @@ class Dashboard extends Component {
                       size="sm"
                       tag="label"
                       className={classNames("btn-simple", {
-                        active: bigChartData === "data2",
+                        active: this.bigChartData === "data2",
                       })}
-                      onClick={() => setBgChartData("data2")}
+                      onClick={() => this.setBgChartData("data2")}
                     >
                       <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                         Purchases
@@ -129,9 +134,9 @@ class Dashboard extends Component {
                       size="sm"
                       tag="label"
                       className={classNames("btn-simple", {
-                        active: bigChartData === "data3",
+                        active: this.bigChartData === "data3",
                       })}
-                      onClick={() => setBgChartData("data3")}
+                      onClick={() => this.setBgChartData("data3")}
                     >
                       <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                         Sessions
@@ -147,163 +152,8 @@ class Dashboard extends Component {
             <CardBody>
               <div className="chart-area">
                 <Line
-                  data={chartExample1[bigChartData]}
+                  data={chartExample1[this.bigChartData]}
                   options={chartExample1.options}
-                />
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-        <Col lg="3" md="6">
-          <Card className="card-stats">
-            <CardBody>
-              <Row>
-                <Col xs="5">
-                  <div className="info-icon text-center icon-warning">
-                    <i className="tim-icons icon-chat-33" />
-                  </div>
-                </Col>
-                <Col xs="7">
-                  <div className="numbers">
-                    <p className="card-category">Number</p>
-                    <CardTitle tag="h3">150GB</CardTitle>
-                  </div>
-                </Col>
-              </Row>
-            </CardBody>
-            <CardFooter>
-              <hr />
-              <div className="stats">
-                <i className="tim-icons icon-refresh-01" /> Update Now
-              </div>
-            </CardFooter>
-          </Card>
-        </Col>
-        <Col lg="3" md="6">
-          <Card className="card-stats">
-            <CardBody>
-              <Row>
-                <Col xs="5">
-                  <div className="info-icon text-center icon-primary">
-                    <i className="tim-icons icon-shape-star" />
-                  </div>
-                </Col>
-                <Col xs="7">
-                  <div className="numbers">
-                    <p className="card-category">Followers</p>
-                    <CardTitle tag="h3">+45k</CardTitle>
-                  </div>
-                </Col>
-              </Row>
-            </CardBody>
-            <CardFooter>
-              <hr />
-              <div className="stats">
-                <i className="tim-icons icon-sound-wave" /> Last Research
-              </div>
-            </CardFooter>
-          </Card>
-        </Col>
-        <Col lg="3" md="6">
-          <Card className="card-stats">
-            <CardBody>
-              <Row>
-                <Col xs="5">
-                  <div className="info-icon text-center icon-success">
-                    <i className="tim-icons icon-single-02" />
-                  </div>
-                </Col>
-                <Col xs="7">
-                  <div className="numbers">
-                    <p className="card-category">Users</p>
-                    <CardTitle tag="h3">150,000</CardTitle>
-                  </div>
-                </Col>
-              </Row>
-            </CardBody>
-            <CardFooter>
-              <hr />
-              <div className="stats">
-                <i className="tim-icons icon-trophy" /> Customers feedback
-              </div>
-            </CardFooter>
-          </Card>
-        </Col>
-        <Col lg="3" md="6">
-          <Card className="card-stats">
-            <CardBody>
-              <Row>
-                <Col xs="5">
-                  <div className="info-icon text-center icon-danger">
-                    <i className="tim-icons icon-molecule-40" />
-                  </div>
-                </Col>
-                <Col xs="7">
-                  <div className="numbers">
-                    <p className="card-category">Errors</p>
-                    <CardTitle tag="h3">12</CardTitle>
-                  </div>
-                </Col>
-              </Row>
-            </CardBody>
-            <CardFooter>
-              <hr />
-              <div className="stats">
-                <i className="tim-icons icon-watch-time" /> In the last hours
-              </div>
-            </CardFooter>
-          </Card>
-        </Col>
-        <Col lg="4">
-          <Card className="card-chart">
-            <CardHeader>
-              <h5 className="card-category">Total Shipments</h5>
-              <CardTitle tag="h3">
-                <i className="tim-icons icon-bell-55 text-primary" /> 763,215
-              </CardTitle>
-            </CardHeader>
-            <CardBody>
-              <div className="chart-area">
-                <Line
-                  data={chartExample2.data}
-                  options={chartExample2.options}
-                />
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-        <Col lg="4">
-          <Card className="card-chart">
-            <CardHeader>
-              <h5 className="card-category">Daily Sales</h5>
-              <CardTitle tag="h3">
-                <i className="tim-icons icon-delivery-fast text-info" />{" "}
-                3,500€
-              </CardTitle>
-            </CardHeader>
-            <CardBody>
-              <div className="chart-area">
-                <Bar
-                  data={chartExample3.data}
-                  options={chartExample3.options}
-                />
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-        <Col lg="4">
-          <Card className="card-chart">
-            <CardHeader>
-              <h5 className="card-category">Completed Tasks</h5>
-              <CardTitle tag="h3">
-                <i className="tim-icons icon-send text-success" /> 12,100K
-              </CardTitle>
-            </CardHeader>
-            <CardBody>
-              <div className="chart-area">
-                <Line
-                  data={chartExample4.data}
-                  options={chartExample4.options}
                 />
               </div>
             </CardBody>
@@ -311,268 +161,7 @@ class Dashboard extends Component {
         </Col>
       </Row>
       <Row>
-        <Col lg="5">
-          <Card className="card-tasks">
-            <CardHeader>
-              <h6 className="title d-inline">Tasks(5)</h6>
-              <p className="card-category d-inline">today</p>
-              <UncontrolledDropdown>
-                <DropdownToggle
-                  caret
-                  className="btn-icon"
-                  color="link"
-                  data-toggle="dropdown"
-                  type="button"
-                >
-                  <i className="tim-icons icon-settings-gear-63" />
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    Action
-                  </DropdownItem>
-                  <DropdownItem
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    Another action
-                  </DropdownItem>
-                  <DropdownItem
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    Something else
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </CardHeader>
-            <CardBody>
-              <div className="table-full-width table-responsive">
-                <Table>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <FormGroup check>
-                          <Label check>
-                            <Input defaultValue="" type="checkbox" />
-                            <span className="form-check-sign">
-                              <span className="check" />
-                            </span>
-                          </Label>
-                        </FormGroup>
-                      </td>
-                      <td>
-                        <p className="title">Update the Documentation</p>
-                        <p className="text-muted">
-                          Dwuamish Head, Seattle, WA 8:47 AM
-                        </p>
-                      </td>
-                      <td className="td-actions text-right">
-                        <Button
-                          color="link"
-                          id="tooltip786630859"
-                          title=""
-                          type="button"
-                        >
-                          <i className="tim-icons icon-pencil" />
-                        </Button>
-                        <UncontrolledTooltip
-                          delay={0}
-                          target="tooltip786630859"
-                        >
-                          Edit Task
-                        </UncontrolledTooltip>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <FormGroup check>
-                          <Label check>
-                            <Input
-                              defaultChecked
-                              defaultValue=""
-                              type="checkbox"
-                            />
-                            <span className="form-check-sign">
-                              <span className="check" />
-                            </span>
-                          </Label>
-                        </FormGroup>
-                      </td>
-                      <td>
-                        <p className="title">GDPR Compliance</p>
-                        <p className="text-muted">
-                          The GDPR is a regulation that requires businesses to
-                          protect the personal data and privacy of Europe
-                          citizens for transactions that occur within EU
-                          member states.
-                        </p>
-                      </td>
-                      <td className="td-actions text-right">
-                        <Button
-                          color="link"
-                          id="tooltip155151810"
-                          title=""
-                          type="button"
-                        >
-                          <i className="tim-icons icon-pencil" />
-                        </Button>
-                        <UncontrolledTooltip
-                          delay={0}
-                          target="tooltip155151810"
-                        >
-                          Edit Task
-                        </UncontrolledTooltip>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <FormGroup check>
-                          <Label check>
-                            <Input defaultValue="" type="checkbox" />
-                            <span className="form-check-sign">
-                              <span className="check" />
-                            </span>
-                          </Label>
-                        </FormGroup>
-                      </td>
-                      <td>
-                        <p className="title">Solve the issues</p>
-                        <p className="text-muted">
-                          Fifty percent of all respondents said they would be
-                          more likely to shop at a company
-                        </p>
-                      </td>
-                      <td className="td-actions text-right">
-                        <Button
-                          color="link"
-                          id="tooltip199559448"
-                          title=""
-                          type="button"
-                        >
-                          <i className="tim-icons icon-pencil" />
-                        </Button>
-                        <UncontrolledTooltip
-                          delay={0}
-                          target="tooltip199559448"
-                        >
-                          Edit Task
-                        </UncontrolledTooltip>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <FormGroup check>
-                          <Label check>
-                            <Input defaultValue="" type="checkbox" />
-                            <span className="form-check-sign">
-                              <span className="check" />
-                            </span>
-                          </Label>
-                        </FormGroup>
-                      </td>
-                      <td>
-                        <p className="title">Release v2.0.0</p>
-                        <p className="text-muted">
-                          Ra Ave SW, Seattle, WA 98116, SUA 11:19 AM
-                        </p>
-                      </td>
-                      <td className="td-actions text-right">
-                        <Button
-                          color="link"
-                          id="tooltip989676508"
-                          title=""
-                          type="button"
-                        >
-                          <i className="tim-icons icon-pencil" />
-                        </Button>
-                        <UncontrolledTooltip
-                          delay={0}
-                          target="tooltip989676508"
-                        >
-                          Edit Task
-                        </UncontrolledTooltip>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <FormGroup check>
-                          <Label check>
-                            <Input defaultValue="" type="checkbox" />
-                            <span className="form-check-sign">
-                              <span className="check" />
-                            </span>
-                          </Label>
-                        </FormGroup>
-                      </td>
-                      <td>
-                        <p className="title">Export the processed files</p>
-                        <p className="text-muted">
-                          The report also shows that consumers will not easily
-                          forgive a company once a breach exposing their
-                          personal data occurs.
-                        </p>
-                      </td>
-                      <td className="td-actions text-right">
-                        <Button
-                          color="link"
-                          id="tooltip557118868"
-                          title=""
-                          type="button"
-                        >
-                          <i className="tim-icons icon-pencil" />
-                        </Button>
-                        <UncontrolledTooltip
-                          delay={0}
-                          target="tooltip557118868"
-                        >
-                          Edit Task
-                        </UncontrolledTooltip>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <FormGroup check>
-                          <Label check>
-                            <Input defaultValue="" type="checkbox" />
-                            <span className="form-check-sign">
-                              <span className="check" />
-                            </span>
-                          </Label>
-                        </FormGroup>
-                      </td>
-                      <td>
-                        <p className="title">Arival at export process</p>
-                        <p className="text-muted">
-                          Capitol Hill, Seattle, WA 12:34 AM
-                        </p>
-                      </td>
-                      <td className="td-actions text-right">
-                        <Button
-                          color="link"
-                          id="tooltip143185858"
-                          title=""
-                          type="button"
-                        >
-                          <i className="tim-icons icon-pencil" />
-                        </Button>
-                        <UncontrolledTooltip
-                          delay={0}
-                          target="tooltip143185858"
-                        >
-                          Edit Task
-                        </UncontrolledTooltip>
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-        <Col lg="7">
+        <Col lg="12">
           <Card>
             <CardHeader>
               <div className="tools float-right">
@@ -962,151 +551,10 @@ class Dashboard extends Component {
             </CardBody>
           </Card>
         </Col>
-        <Col lg="12">
-          <Card>
-            <CardHeader>
-              <CardTitle tag="h4">Global Sales by Top Locations</CardTitle>
-              <p className="card-category">All products that were shipped</p>
-            </CardHeader>
-            <CardBody>
-              <Row>
-                <Col md="6">
-                  <Table responsive>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <div className="flag">
-                            <img
-                              alt="..."
-                              src={require("assets/img/US.png").default}
-                            />
-                          </div>
-                        </td>
-                        <td>USA</td>
-                        <td className="text-right">2.920</td>
-                        <td className="text-right">53.23%</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div className="flag">
-                            <img
-                              alt="..."
-                              src={require("assets/img/DE.png").default}
-                            />
-                          </div>
-                        </td>
-                        <td>Germany</td>
-                        <td className="text-right">1.300</td>
-                        <td className="text-right">20.43%</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div className="flag">
-                            <img
-                              alt="..."
-                              src={require("assets/img/AU.png").default}
-                            />
-                          </div>
-                        </td>
-                        <td>Australia</td>
-                        <td className="text-right">760</td>
-                        <td className="text-right">10.35%</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div className="flag">
-                            <img
-                              alt="..."
-                              src={require("assets/img/GB.png").default}
-                            />
-                          </div>
-                        </td>
-                        <td>United Kingdom</td>
-                        <td className="text-right">690</td>
-                        <td className="text-right">7.87%</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div className="flag">
-                            <img
-                              alt="..."
-                              src={require("assets/img/RO.png").default}
-                            />
-                          </div>
-                        </td>
-                        <td>Romania</td>
-                        <td className="text-right">600</td>
-                        <td className="text-right">5.94%</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div className="flag">
-                            <img
-                              alt="..."
-                              src={require("assets/img/BR.png").default}
-                            />
-                          </div>
-                        </td>
-                        <td>Brasil</td>
-                        <td className="text-right">550</td>
-                        <td className="text-right">4.34%</td>
-                      </tr>
-                    </tbody>
-                  </Table>
-                </Col>
-                <Col className="ml-auto mr-auto" md="6">
-                  <VectorMap
-                    map={"world_mill"}
-                    backgroundColor="transparent"
-                    zoomOnScroll={false}
-                    containerStyle={{
-                      width: "100%",
-                      height: "300px",
-                    }}
-                    regionStyle={{
-                      initial: {
-                        fill: "#e4e4e4",
-                        "fill-opacity": 0.9,
-                        stroke: "none",
-                        "stroke-width": 0,
-                        "stroke-opacity": 0,
-                      },
-                    }}
-                    series={{
-                      regions: [
-                        {
-                          values: mapData,
-                          scale: ["#AAAAAA", "#444444"],
-                          normalizeFunction: "polynomial",
-                        },
-                      ],
-                    }}
-                  />
-                </Col>
-              </Row>
-            </CardBody>
-          </Card>
-        </Col>
       </Row>
     </div>
-  
-
-
     );
   }
 }
-
-
-
-const Dashboard = () => {
-  const [bigChartData, setbigChartData] = React.useState("data1");
-  const setBgChartData = (name) => {
-    setbigChartData(name);
-  };
-    
-  // equivale a
-  React.useEffect((props) => {
-    if (!auth.currentUser) props.history.push('/auth/lock-screen')
-  })
 
 export default Dashboard;
