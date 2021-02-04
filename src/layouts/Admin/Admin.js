@@ -14,7 +14,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { Component } from 'react';
 import { Route, Switch, Redirect, useLocation } from "react-router-dom";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
@@ -33,7 +33,165 @@ import logo from "assets/img/react-logo.png";
 
 var ps;
 
-const Admin = (props) => {
+
+class Admin extends Component {
+
+  state = {
+    activeColor: "blue",
+    sidebarMini: true,
+    opacity: 0,
+    sidebarOpened: false
+  }
+  notificationAlertRef = React.createRef(null);
+  mainPanelRef = React.createRef(null);
+
+
+  /* Esta funcion regristra los clicks en los botones y controlan el sidebar */
+
+  /**
+    TODO: quitar esta funcion pronto...
+   */
+  handleMiniClick = () => {
+    let notifyMessage = "Sidebar mini ";
+    if (document.body.classList.contains("sidebar-mini")) {
+      this.setState({sidebarMini: false});
+      notifyMessage += "deactivated...";
+    } else {
+      this.setState({sidebarMini: true})
+      notifyMessage += "activated...";
+    }
+    let options = {};
+    options = {
+      place: "tr",
+      message: notifyMessage,
+      type: "primary",
+      icon: "tim-icons icon-bell-55",
+      autoDismiss: 7,
+    };
+    this.notificationAlertRef.current.notificationAlert(options);
+    document.body.classList.toggle("sidebar-mini");
+  };
+
+  // Esta funcion cierra el sidebar
+  closeSidebar = () => {
+    this.setState({sidebarOpened: false})
+    document.documentElement.classList.remove("nav-open");
+  };
+
+  getActiveRoute = (routes) => {
+    let activeRoute = "Default Brand Text";
+    for (let i = 0; i < routes.length; i++) {
+      if (routes[i].collapse) {
+        let collapseActiveRoute = this.getActiveRoute(routes[i].views);
+        if (collapseActiveRoute !== activeRoute) {
+          return collapseActiveRoute;
+        }
+      } else {
+        if (
+          window.location.pathname.indexOf(
+            routes[i].layout + routes[i].path
+          ) !== -1
+        ) {
+          return routes[i].name;
+        }
+      }
+    }
+    return activeRoute;
+  };
+
+  toggleSidebar = () => {
+    const { sidebarOpened } = this.state;
+
+    this.setState({sidebarOpened: !sidebarOpened});
+    document.documentElement.classList.toggle("nav-open");
+  };
+
+  getRoutes = (routes) => {
+    return routes.map((prop, key) => {
+      if (prop.collapse) {
+        return this.getRoutes(prop.views);
+      }
+      if (prop.layout === "/admin") {
+        return (
+          <Route
+            path={prop.layout + prop.path}
+            component={prop.component}
+            key={key}
+          />
+        );
+      } else {
+        return null;
+      }
+    });
+  };
+
+  // Cambiar el color del sidebar
+  handleActiveClick = (activeColor) => {
+    this.setState({activeColor});
+  };
+
+  componentDidMount(){
+    
+  }
+
+  render() {
+    const { activeColor, sidebarMini, sidebarOpened, opacity } = this.state;
+    return (
+      <div className="wrapper">
+        <div className="rna-container">
+          <NotificationAlert ref={this.notificationAlertRef} />
+        </div>
+        <div className="navbar-minimize-fixed" style={{ opacity: opacity }}>
+          <button
+            className="minimize-sidebar btn btn-link btn-just-icon"
+            onClick={this.handleMiniClick}
+          >
+            <i className="tim-icons icon-align-center visible-on-sidebar-regular text-muted" />
+            <i className="tim-icons icon-bullet-list-67 visible-on-sidebar-mini text-muted" />
+          </button>
+        </div>
+        <Sidebar
+          {...this.props}
+            routes={routes}
+            activeColor={activeColor}
+            logo={{
+            outterLink: "https://www.creative-tim.com/",
+            text: "Creative Tim",
+            imgSrc: logo,
+          }}
+          closeSidebar={this.closeSidebar}
+        />
+      <div className="main-panel" ref={this.mainPanelRef} data={activeColor}>
+        <AdminNavbar
+          {...this.props}
+          handleMiniClick={this.handleMiniClick}
+          brandText={this.getActiveRoute(routes)}
+          sidebarOpened={sidebarOpened}
+          toggleSidebar={this.toggleSidebar}
+        />
+        <Switch>
+          {this.getRoutes(routes)}
+          <Redirect from="*" to="/admin/dashboard" />
+        </Switch>
+        {
+          // we don't want the Footer to be rendered on full screen maps page
+          this.props.location.pathname.indexOf("full-screen-map") !== -1 ? null : (
+            <Footer fluid />
+          )
+        }
+      </div>
+      <FixedPlugin
+        activeColor={activeColor}
+        sidebarMini={sidebarMini}
+        handleActiveClick={this.handleActiveClick}
+        handleMiniClick={this.handleMiniClick}
+      />
+    </div>
+    );
+  }
+}
+
+/*const Admin = (props) => {
   const [activeColor, setActiveColor] = React.useState("blue");
   const [sidebarMini, setSidebarMini] = React.useState(true);
   const [opacity, setOpacity] = React.useState(0);
@@ -91,127 +249,6 @@ const Admin = (props) => {
       setOpacity(0);
     }
   };
-  const getRoutes = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.collapse) {
-        return getRoutes(prop.views);
-      }
-      if (prop.layout === "/admin") {
-        return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
-      } else {
-        return null;
-      }
-    });
-  };
-  const getActiveRoute = (routes) => {
-    let activeRoute = "Default Brand Text";
-    for (let i = 0; i < routes.length; i++) {
-      if (routes[i].collapse) {
-        let collapseActiveRoute = getActiveRoute(routes[i].views);
-        if (collapseActiveRoute !== activeRoute) {
-          return collapseActiveRoute;
-        }
-      } else {
-        if (
-          window.location.pathname.indexOf(
-            routes[i].layout + routes[i].path
-          ) !== -1
-        ) {
-          return routes[i].name;
-        }
-      }
-    }
-    return activeRoute;
-  };
-  const handleActiveClick = (color) => {
-    setActiveColor(color);
-  };
-  const handleMiniClick = () => {
-    let notifyMessage = "Sidebar mini ";
-    if (document.body.classList.contains("sidebar-mini")) {
-      setSidebarMini(false);
-      notifyMessage += "deactivated...";
-    } else {
-      setSidebarMini(true);
-      notifyMessage += "activated...";
-    }
-    let options = {};
-    options = {
-      place: "tr",
-      message: notifyMessage,
-      type: "primary",
-      icon: "tim-icons icon-bell-55",
-      autoDismiss: 7,
-    };
-    notificationAlertRef.current.notificationAlert(options);
-    document.body.classList.toggle("sidebar-mini");
-  };
-  const toggleSidebar = () => {
-    setSidebarOpened(!sidebarOpened);
-    document.documentElement.classList.toggle("nav-open");
-  };
-  const closeSidebar = () => {
-    setSidebarOpened(false);
-    document.documentElement.classList.remove("nav-open");
-  };
-  return (
-    <div className="wrapper">
-      <div className="rna-container">
-        <NotificationAlert ref={notificationAlertRef} />
-      </div>
-      <div className="navbar-minimize-fixed" style={{ opacity: opacity }}>
-        <button
-          className="minimize-sidebar btn btn-link btn-just-icon"
-          onClick={handleMiniClick}
-        >
-          <i className="tim-icons icon-align-center visible-on-sidebar-regular text-muted" />
-          <i className="tim-icons icon-bullet-list-67 visible-on-sidebar-mini text-muted" />
-        </button>
-      </div>
-      <Sidebar
-        {...props}
-        routes={routes}
-        activeColor={activeColor}
-        logo={{
-          outterLink: "https://www.creative-tim.com/",
-          text: "Creative Tim",
-          imgSrc: logo,
-        }}
-        closeSidebar={closeSidebar}
-      />
-      <div className="main-panel" ref={mainPanelRef} data={activeColor}>
-        <AdminNavbar
-          {...props}
-          handleMiniClick={handleMiniClick}
-          brandText={getActiveRoute(routes)}
-          sidebarOpened={sidebarOpened}
-          toggleSidebar={toggleSidebar}
-        />
-        <Switch>
-          {getRoutes(routes)}
-          <Redirect from="*" to="/admin/dashboard" />
-        </Switch>
-        {
-          // we don't want the Footer to be rendered on full screen maps page
-          props.location.pathname.indexOf("full-screen-map") !== -1 ? null : (
-            <Footer fluid />
-          )
-        }
-      </div>
-      <FixedPlugin
-        activeColor={activeColor}
-        sidebarMini={sidebarMini}
-        handleActiveClick={handleActiveClick}
-        handleMiniClick={handleMiniClick}
-      />
-    </div>
-  );
-};
+};*/
 
 export default Admin;
