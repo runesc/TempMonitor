@@ -12,16 +12,6 @@ class App extends Component {
       firebaseUser: null
     }
 
-    componentDidMount = async () => {
-
-      await auth.onAuthStateChanged((user) => {
-        if (user){
-            this.setState({firebaseUser: user})
-        }else{
-        }
-      })
-    }
-
     render() {
       return <>
       <BrowserRouter>
