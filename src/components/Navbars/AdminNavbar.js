@@ -39,7 +39,6 @@ import {
 
 const AdminNavbar = (props) => {
   const [collapseOpen, setCollapseOpen] = React.useState(false);
-  const [modalSearch, setModalSearch] = React.useState(false);
   const [color, setColor] = React.useState("navbar-transparent");
   React.useEffect(() => {
     window.addEventListener("resize", updateColor);
@@ -52,29 +51,27 @@ const AdminNavbar = (props) => {
     if (window.innerWidth < 993 && collapseOpen) {
       setColor("bg-white");
     } else {
-      setColor("navbar-transparent");
+      setColor("dark-navbar-fixed");
     }
   };
   // this function opens and closes the collapse on small devices
   const toggleCollapse = () => {
     if (collapseOpen) {
-      setColor("navbar-transparent");
+      setColor("dark-navbar-fixed");
     } else {
       setColor("bg-white");
     }
     setCollapseOpen(!collapseOpen);
   };
-  // this function is to open the Search modal
-  const toggleModalSearch = () => {
-    setModalSearch(!modalSearch);
-  };
+
   return (
     <>
       <Navbar
-        className={classNames("navbar-absolute", {
+        className={classNames("navbar-absolute dark-navbar-fixed", {
           [color]: props.location.pathname.indexOf("full-screen-map") === -1,
         })}
         expand="lg"
+        style={{ position: "fixed", backgroundColor: "#1e1e2f" }}
       >
         <Container fluid>
           <div className="navbar-wrapper">
@@ -130,57 +127,6 @@ const AdminNavbar = (props) => {
           </button>
           <Collapse navbar isOpen={collapseOpen}>
             <Nav className="ml-auto" navbar>
-              <InputGroup className="search-bar" tag="li">
-                <Button
-                  color="link"
-                  data-target="#searchModal"
-                  data-toggle="modal"
-                  id="search-button"
-                  onClick={toggleModalSearch}
-                >
-                  <i className="tim-icons icon-zoom-split" />
-                  <span className="d-lg-none d-md-block">Search</span>
-                </Button>
-              </InputGroup>
-              <UncontrolledDropdown nav>
-                <DropdownToggle
-                  caret
-                  color="default"
-                  data-toggle="dropdown"
-                  nav
-                >
-                  <div className="notification d-none d-lg-block d-xl-block" />
-                  <i className="tim-icons icon-sound-wave" />
-                  <p className="d-lg-none">Notifications</p>
-                </DropdownToggle>
-                <DropdownMenu className="dropdown-navbar" right tag="ul">
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Mike John responded to your email
-                    </DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      You have 5 more tasks
-                    </DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Your friend Michael is in town
-                    </DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Another notification
-                    </DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Another one
-                    </DropdownItem>
-                  </NavLink>
-                </DropdownMenu>
-              </UncontrolledDropdown>
               <UncontrolledDropdown nav>
                 <DropdownToggle
                   caret
@@ -192,7 +138,7 @@ const AdminNavbar = (props) => {
                   <div className="photo">
                     <img
                       alt="..."
-                      src={require("assets/img/mike.jpg").default}
+                      src={require("assets/img/default-avatar.png").default}
                     />
                   </div>
                   <b className="caret d-none d-lg-block d-xl-block" />
@@ -200,14 +146,11 @@ const AdminNavbar = (props) => {
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-navbar" right tag="ul">
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">Profile</DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">Settings</DropdownItem>
+                    <DropdownItem className="nav-item">Configuración</DropdownItem>
                   </NavLink>
                   <DropdownItem divider tag="li" />
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">Log out</DropdownItem>
+                    <DropdownItem className="nav-item">Cerrar sesión</DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>
@@ -216,24 +159,6 @@ const AdminNavbar = (props) => {
           </Collapse>
         </Container>
       </Navbar>
-      <Modal
-        modalClassName="modal-search"
-        isOpen={modalSearch}
-        toggle={toggleModalSearch}
-      >
-        <div className="modal-header">
-          <Input id="inlineFormInputGroup" placeholder="SEARCH" type="text" />
-          <button
-            aria-label="Close"
-            className="close"
-            data-dismiss="modal"
-            type="button"
-            onClick={toggleModalSearch}
-          >
-            <i className="tim-icons icon-simple-remove" />
-          </button>
-        </div>
-      </Modal>
     </>
   );
 };

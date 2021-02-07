@@ -52,27 +52,39 @@ import {
   chartExample4,
 } from "variables/charts.js";
 
-var mapData = {
-  AU: 760,
-  BR: 550,
-  CA: 120,
-  DE: 1300,
-  FR: 540,
-  GB: 690,
-  GE: 200,
-  IN: 200,
-  RO: 600,
-  RU: 300,
-  US: 2920,
-};
-
 class Dashboard extends Component {
 
   state = {
-    dispositivos: []
-  };
+    dispositivos: [],
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+          label: '# of Votes',
+          data: [12, 19, 3, 5, 2, 3],
+          backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+      }]
+  }
+};
 
-  bigChartData = () => {}
+  bigChartData = () => {
+    return [10,12,30,49]
+  }
 
   setBgChartData = (name) => {}
 
@@ -111,8 +123,8 @@ class Dashboard extends Component {
             <CardHeader>
               <Row>
                 <Col className="text-left" sm="6">
-                  <h5 className="card-category">Total Shipments</h5>
-                  <CardTitle tag="h2">Performance</CardTitle>
+                  <h5 className="card-category">Datos de</h5>
+                  <CardTitle tag="h2">Ubicacion del dispositivo</CardTitle>
                 </Col>
                 <Col sm="6">
                   <ButtonGroup
@@ -177,7 +189,7 @@ class Dashboard extends Component {
             <CardBody>
               <div className="chart-area">
                 <Line
-                  data={chartExample1[this.bigChartData]}
+                  data={this.state.data}
                   options={chartExample1.options}
                 />
               </div>

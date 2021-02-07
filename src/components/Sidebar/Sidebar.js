@@ -219,7 +219,10 @@ const Sidebar = (props) => {
             {logoText}
           </div>
         ) : null}
-        <Nav>{createLinks(props.routes)}</Nav>
+        {
+          /** Las rutas son generadas proceduralmente */
+          <Nav>{createLinks(props.routes)}</Nav>
+        }
       </div>
     </div>
   );

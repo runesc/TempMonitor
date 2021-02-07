@@ -25,11 +25,11 @@ import NotificationAlert from "react-notification-alert";
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
-import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import routes from "routes.js";
 
-import logo from "assets/img/react-logo.png";
+import avatar from "assets/img/default-avatar.png";
+import './Admin.css'
 
 var ps;
 
@@ -37,8 +37,6 @@ var ps;
 class Admin extends Component {
 
   state = {
-    activeColor: "blue",
-    sidebarMini: true,
     opacity: 0,
     sidebarOpened: false
   }
@@ -52,14 +50,15 @@ class Admin extends Component {
     TODO: quitar esta funcion pronto...
    */
   handleMiniClick = () => {
-    let notifyMessage = "Sidebar mini ";
     if (document.body.classList.contains("sidebar-mini")) {
       this.setState({sidebarMini: false});
-      notifyMessage += "deactivated...";
+
     } else {
       this.setState({sidebarMini: true})
-      notifyMessage += "activated...";
     }
+    /*
+    ! Esto activa la notificacion
+
     let options = {};
     options = {
       place: "tr",
@@ -68,7 +67,7 @@ class Admin extends Component {
       icon: "tim-icons icon-bell-55",
       autoDismiss: 7,
     };
-    this.notificationAlertRef.current.notificationAlert(options);
+    this.notificationAlertRef.current.notificationAlert(options);*/
     document.body.classList.toggle("sidebar-mini");
   };
 
@@ -130,12 +129,9 @@ class Admin extends Component {
     this.setState({activeColor});
   };
 
-  componentDidMount(){
-    
-  }
 
   render() {
-    const { activeColor, sidebarMini, sidebarOpened, opacity } = this.state;
+    const {sidebarOpened, opacity } = this.state;
     return (
       <div className="wrapper">
         <div className="rna-container">
@@ -153,19 +149,19 @@ class Admin extends Component {
         <Sidebar
           {...this.props}
             routes={routes}
-            activeColor={activeColor}
+            activeColor='blue'
             logo={{
-            outterLink: "https://www.creative-tim.com/",
-            text: "Creative Tim",
-            imgSrc: logo,
+            outterLink: "#!",
+            text: "Invitado",
+            imgSrc: avatar,
           }}
           closeSidebar={this.closeSidebar}
         />
-      <div className="main-panel" ref={this.mainPanelRef} data={activeColor}>
+      <div className="main-panel" ref={this.mainPanelRef} data={''}>
         <AdminNavbar
           {...this.props}
           handleMiniClick={this.handleMiniClick}
-          brandText={this.getActiveRoute(routes)}
+          brandText='Monitoreo de temperatura'
           sidebarOpened={sidebarOpened}
           toggleSidebar={this.toggleSidebar}
         />
@@ -180,12 +176,6 @@ class Admin extends Component {
           )
         }
       </div>
-      <FixedPlugin
-        activeColor={activeColor}
-        sidebarMini={sidebarMini}
-        handleActiveClick={this.handleActiveClick}
-        handleMiniClick={this.handleMiniClick}
-      />
     </div>
     );
   }
