@@ -56,11 +56,11 @@ class Dashboard extends Component {
 
   state = {
     dispositivos: [],
+    defaultChart: 0,
     data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      labels: [],
       datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
+          data: [],
           backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
@@ -89,9 +89,13 @@ class Dashboard extends Component {
   setBgChartData = (name) => {}
 
   componentDidMount = async() => {
-    let devices = db.ref('dispositivos')
+    const {dispositivos, defaultChart} = this.state
+
+    let devices = db.ref('dispositivos') // Esto es una referencia a la db en firebase
 
     await devices.on('value', (snapshot) => {
+
+      // Preparar los datos de la lista de dispositivos
       const data = snapshot.val()
 
       let d = []
@@ -102,14 +106,54 @@ class Dashboard extends Component {
         }
       })
 
-      let dispositivos = this.state.dispositivos
+      // Quiero que me actualices la lista dispositivos
+      let deviceList = dispositivos
+      deviceList = [...d]
 
-      dispositivos = [...d]
+      // Extraer datasets del dispostivo seleccionado por default
+      let chartLabels = this.state.data.labels // aqui se cargan los datos de la linea de tiempo (por default es lista por lo tanto )
+      chartLabels.push(new Date().toLocaleTimeString('es-mx',{hour:'2-digit',minute:'2-digit',second:'2-digit'}) )
 
-      this.setState({dispositivos})
+
+      // Esto actualiza los datos del chart
+      let chartDatasets = this.state.data.datasets[0].data
+      if(deviceList[defaultChart].temp){
+        chartDatasets.push(deviceList[defaultChart].temp)
+      }
+
+      this.setState({
+        dispositivos: deviceList,
+        data: {
+          labels: [...chartLabels],
+          datasets: [{
+              data: [...chartDatasets],
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      }
+    })
 
     })
 
+  }
+
+  selectChartData = (defaultChart) =>{
+    this.setState({defaultChart})
   }
 
   render() {
@@ -259,7 +303,7 @@ class Dashboard extends Component {
                   {
                     dispositivos.length !== 0 ? (
                       dispositivos.map( (i, k) =>
-                        <DeviceTr key={k} ubicacion={i.Ubicacion} temp={i.temp} hum={i.hum} contacto={i.Contacto}/>
+                        <DeviceTr key={k} ubicacion={i.Ubicacion} temp={i.temp} hum={i.hum} contacto={i.Contacto} listKey={ e => this.selectChartData(k) }/>
                       )
                     ) : <tr>Sin datos</tr>
                   }

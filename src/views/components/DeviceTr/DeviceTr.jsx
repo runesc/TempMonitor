@@ -6,7 +6,7 @@ import {
 
 class DeviceTr extends Component {
     render() {
-        const { ubicacion, temp, hum, contact } = this.props;
+        const { ubicacion, temp, hum, contact, listKey } = this.props;
         return (
             <tr>
                 <td>{ ubicacion }</td>
@@ -14,10 +14,11 @@ class DeviceTr extends Component {
                 <td className="text-blue">{hum} %</td>
                 <td>{ contact }</td>
                 <td>
-                    <Button color="info" size="sm" title="Ver Grafico" type="button">
+                    <Button onClick={listKey} color="info" size="sm" title="Ver Grafico" type="button">
                         <i className="tim-icons icon-refresh-01" /> Ver Grafico
-                    </Button>
+                    </Button >
                 </td>
+                <td>{listKey}</td>
             </tr>
         );
     }
