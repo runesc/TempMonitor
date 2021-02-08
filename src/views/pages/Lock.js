@@ -77,7 +77,7 @@ class Lock extends Component {
 	render() {
 		const { passFocus, password, message } = this.state
 		return (
-			<div className="content"> { /* añadir la class bg para agregar la imagen de fondo */}
+			<div className="content bg"> { /* añadir la class bg para agregar la imagen de fondo */}
 				<Container>
 					<Col className="ml-auto mr-auto" lg="4" md="6">
 						{
