@@ -88,7 +88,6 @@ const Pages = (props) => {
             {getRoutes(routes)}
             <Redirect from="*" to="/lock-screen" />
           </Switch>
-          <Footer fluid />
         </div>
       </div>
     </>

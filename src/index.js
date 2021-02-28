@@ -16,7 +16,7 @@
 */
 import React from 'react';
 import ReactDOM from "react-dom";
-
+import { BrowserRouter as Router } from "react-router-dom";
 import App from './App.jsx'
 
 
@@ -26,6 +26,6 @@ import "assets/css/black-dashboard-pro-react.css";
 import "assets/demo/demo.css";
 
 ReactDOM.render(
-  <App />,
+  <Router><App /></Router>,
   document.getElementById("root")
 );

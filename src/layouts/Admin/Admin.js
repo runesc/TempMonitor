@@ -169,12 +169,6 @@ class Admin extends Component {
           {this.getRoutes(routes)}
           <Redirect from="*" to="/admin/dashboard" />
         </Switch>
-        {
-          // we don't want the Footer to be rendered on full screen maps page
-          this.props.location.pathname.indexOf("full-screen-map") !== -1 ? null : (
-            <Footer fluid />
-          )
-        }
       </div>
     </div>
     );

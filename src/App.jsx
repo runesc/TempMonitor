@@ -14,14 +14,12 @@ class App extends Component {
 
     render() {
       return <>
-      <BrowserRouter>
         <Switch>
           <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
           <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
           <Route path="/rtl" render={(props) => <RTLLayout {...props} />} />
           <Redirect from="/" to="/auth/lock-screen" />
         </Switch>
-      </BrowserRouter>,
       </>
     }
 }

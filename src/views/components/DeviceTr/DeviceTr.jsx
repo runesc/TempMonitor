@@ -15,7 +15,7 @@ class DeviceTr extends Component {
                 <td>{ contact }</td>
                 <td>
                     <Button onClick={listKey} color="info" size="sm" title="Ver Grafico" type="button">
-                        <i className="tim-icons icon-refresh-01" /> Ver Grafico
+                        Ver Grafico
                     </Button >
                 </td>
                 <td>{listKey}</td>
