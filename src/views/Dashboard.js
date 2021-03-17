@@ -89,6 +89,13 @@ class Dashboard extends Component {
 						bg = "rgba(29, 138, 248)" // color azul para hum
 					}
 
+					// Quitar el primer dato siempre que exceda el limited
+					if(label.length >= 20 && dataList.length >= 20){
+						label.shift()
+						dataList.shift()
+					}
+
+
 					this.setState({
 						data: {
 							labels: [...label],
@@ -246,6 +253,8 @@ class Dashboard extends Component {
 							<Table responsive>
 								<thead className="text-primary">
 									<tr>
+										<th>Hospital</th>
+										<th>Area</th>
 										<th>Ubicación</th>
 										<th>Temperatura</th>
 										<th>Humedad</th>
@@ -257,7 +266,7 @@ class Dashboard extends Component {
 									{
 										dispositivos.length !== 0 ? (
 											dispositivos.map( (i, k) =>
-												<DeviceTr key={k} ubicacion={i.Ubicacion} temp={i.temp} hum={i.hum} contacto={i.Contacto} listKey={ e => this.selectChartData(i.Id) }/>
+												<DeviceTr key={k} hospital={i.Hospital} area={i.Area} ubicacion={i.Ubicacion} temp={i.temp} hum={i.hum} contacto={i.Contacto} listKey={ e => this.selectChartData(i.Id) }/>
 											)
 										) : <tr>Sin datos</tr>
 									}

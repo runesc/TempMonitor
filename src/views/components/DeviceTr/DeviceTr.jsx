@@ -6,9 +6,11 @@ import {
 
 class DeviceTr extends Component {
     render() {
-        const { ubicacion, temp, hum, contact, listKey } = this.props;
+        const { hospital, area, ubicacion, temp, hum, contact, listKey } = this.props;
         return (
             <tr>
+                <td>{hospital}</td>
+                <td>{area}</td>
                 <td>{ ubicacion }</td>
                 <td className="text-red">{ temp } (°C)</td>
                 <td className="text-blue">{hum} %</td>
